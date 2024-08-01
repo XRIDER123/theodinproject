@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>My Library</h1>
+    <button id="newBookBtn">NEW BOOK</button>
+    
+    <div id="formContainer" class="hidden">
+        <form id="bookForm">
+            <input type="text" id="title" name="title" placeholder="Title" required>
+            <input type="text" id="author" name="author" placeholder="Author" required>
+            <input type="number" id="pages" name="pages" placeholder="Pages" required>
+            <label>
+                Read:
+                <input type="checkbox" id="read" name="read">
+            </label>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
+    
+    <div id="booksContainer"></div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+#formContainer {
+    margin-bottom: 20px;
+}
+
+.bookCard {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+button {
+    margin-top: 10px;
+}
+</style>
+
+<script>
+const myLibrary = [];
+
+function Book(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+}
+
+Book.prototype.toggleReadStatus = function() {
+    this.read = !this.read;
+};
+
+function addBookToLibrary(book) {
+    myLibrary.push(book);
+    displayBooks();
+}
+
+function displayBooks() {
+    const booksContainer = document.getElementById('booksContainer');
+    booksContainer.innerHTML = '';
+    myLibrary.forEach((book, index) => {
+        const bookCard = document.createElement('div');
+        bookCard.classList.add('bookCard');
+
+        bookCard.innerHTML = `
+            <h3>${book.title}</h3>
+            <p>Author: ${book.author}</p>
+            <p>Pages: ${book.pages}</p>
+            <p>Read: ${book.read ? "Yes" : "No"}</p>
+            <button onclick="removeBook(${index})">Remove</button>
+            <button onclick="toggleReadStatus(${index})">Toggle Read Status</button>
+        `;
+
+        booksContainer.appendChild(bookCard);
+    });
+}
+
+function removeBook(index) {
+    myLibrary.splice(index, 1);
+    displayBooks();
+}
+
+function toggleReadStatus(index) {
+    myLibrary[index].toggleReadStatus();
+    displayBooks();
+}
+
+document.getElementById('newBookBtn').addEventListener('click', () => {
+    document.getElementById('formContainer').classList.toggle('hidden');
+});
+
+document.getElementById('bookForm').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const pages = document.getElementById('pages').value;
+    const read = document.getElementById('read').checked;
+
+    const newBook = new Book(title, author, pages, read);
+    addBookToLibrary(newBook);
+
+    document.getElementById('bookForm').reset();
+    document.getElementById('formContainer').classList.add('hidden');
+});
+addBookToLibrary(new Book('1984', 'George Orwell', 328, true));
+addBookToLibrary(new Book('To Kill a Mockingbird', 'Harper Lee', 281, false));
+addBookToLibrary(new Book('The Great Gatsby', 'F. Scott Fitzgerald', 180, true));
+</script>
