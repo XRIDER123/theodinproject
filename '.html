@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant</title>
+</head>
+<body>
+  <header>
+    <nav>
+      <button id="home-btn">Home</button>
+      <button id="menu-btn">Menu</button>
+      <button id="contact-btn">Contact</button>
+    </nav>
+  </header>
+  <div id="content"></div>
+</body>
+</html> 
+
+<script>
+function loadHomePage() {
+  const content = document.getElementById('content');
+
+  const headline = document.createElement('h1');
+  headline.textContent = 'Welcome to Our Restaurant';
+
+  const description = document.createElement('p');
+  description.textContent = 'We serve the best food in town!';
+
+  const image = document.createElement('img');
+  image.src = 'image.jpg';  // Use an actual image path if needed
+  image.alt = 'Restaurant Image';
+
+  content.appendChild(headline);
+  content.appendChild(description);
+  content.appendChild(image);
+}
+
+loadHomePage();
+</script>
+
+<script>
+export function loadHomePage() {
+  const content = document.getElementById('content');
+  content.textContent = '';  // Clear the content
+
+  const headline = document.createElement('h1');
+  headline.textContent = 'Welcome to Our Restaurant';
+
+  const description = document.createElement('p');
+  description.textContent = 'We serve the best food in town!';
+
+  content.appendChild(headline);
+  content.appendChild(description);
+}
+</script>
+
+<script>
+export function loadMenuPage() {
+  const content = document.getElementById('content');
+  content.textContent = '';  // Clear the content
+
+  const headline = document.createElement('h1');
+  headline.textContent = 'Our Menu';
+
+  const menuList = document.createElement('ul');
+  const items = ['Pizza', 'Pasta', 'Salad'];
+  items.forEach(item => {
+    const listItem = document.createElement('li');
+    listItem.textContent = item;
+    menuList.appendChild(listItem);
+  });
+
+  content.appendChild(headline);
+  content.appendChild(menuList);
+}
+</script>
+
+<script>
+export function loadContactPage() {
+  const content = document.getElementById('content');
+  content.textContent = '';  // Clear the content
+
+  const headline = document.createElement('h1');
+  headline.textContent = 'Contact Us';
+
+  const contactInfo = document.createElement('p');
+  contactInfo.textContent = 'Phone: 123-456-7890';
+
+  content.appendChild(headline);
+  content.appendChild(contactInfo);
+}
+</script>
+
+<script>
+import { loadHomePage } from './home';
+import { loadMenuPage } from './menu';
+import { loadContactPage } from './contact';
+
+function init() {
+  document.getElementById('home-btn').addEventListener('click', loadHomePage);
+  document.getElementById('menu-btn').addEventListener('click', loadMenuPage);
+  document.getElementById('contact-btn').addEventListener('click', loadContactPage);
+
+  loadHomePage();  // Load the home page by default
+}
+
+init();
+</script>
+
+
